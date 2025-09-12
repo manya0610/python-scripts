@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 async def task(i):
-    x = random.randint(1, 5)
+    x = random.randint(1, 6)
     logger.info("task %s, sleeping for %s", i, x)
     await asyncio.sleep(x)
     logger.info("task %s finished", i)
@@ -18,9 +18,9 @@ async def task(i):
 async def runner():
     futures:list[Future] = []
     for i in range(6):
-        future = task(i)
-        futures.append(future)
-
+        result = task(i)
+        futures.append(result)
+    print(futures)
     futures = await asyncio.gather(*futures, return_exceptions=True)
     return futures
 
