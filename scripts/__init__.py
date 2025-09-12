@@ -1,6 +1,8 @@
 import logging
 import sys
+
 from pythonjsonlogger import jsonlogger
+
 # always create one
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -19,8 +21,12 @@ file_handler = logging.FileHandler("logs.json")
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 
-normal_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s')
-json_formatter = jsonlogger.JsonFormatter("%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s")
+normal_formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s"
+)
+json_formatter = jsonlogger.JsonFormatter(
+    "%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s"
+)
 
 stream_handler.setFormatter(normal_formatter)
 

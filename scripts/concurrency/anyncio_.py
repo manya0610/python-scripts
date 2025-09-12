@@ -1,10 +1,10 @@
 import asyncio
-
-from asyncio import Future
-import random
-
 import logging
+import random
+from asyncio import Future
+
 logger = logging.getLogger(__name__)
+
 
 async def task(i):
     x = random.randint(1, 6)
@@ -15,8 +15,9 @@ async def task(i):
         raise ValueError("boom")
     return i
 
+
 async def runner():
-    futures:list[Future] = []
+    futures: list[Future] = []
     for i in range(6):
         result = task(i)
         futures.append(result)
@@ -35,4 +36,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

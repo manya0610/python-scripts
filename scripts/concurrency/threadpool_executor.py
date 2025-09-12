@@ -1,8 +1,9 @@
-from concurrent.futures import Future, ThreadPoolExecutor
-import time
-
 import logging
+import time
+from concurrent.futures import Future, ThreadPoolExecutor
+
 logger = logging.getLogger(__name__)
+
 
 def task(i):
     logger.info("task %s, sleeping for %s", i, i)
@@ -15,11 +16,10 @@ def task(i):
 
 def main():
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures:list[Future] = []
+        futures: list[Future] = []
         for i in range(6):
             future = executor.submit(task, (i))
             futures.append(future)
-
 
     print("done")
     for future in futures:
