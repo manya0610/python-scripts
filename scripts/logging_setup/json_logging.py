@@ -1,9 +1,9 @@
+import logging
 import os
 import socket
-from pythonjsonlogger import jsonlogger
-
-import logging
 import sys
+
+from pythonjsonlogger import jsonlogger
 
 # always create one
 logger = logging.getLogger(__name__)
@@ -32,14 +32,17 @@ file_handler processes ERROR and above
 """
 
 
-formatter = jsonlogger.JsonFormatter("%(asctime)s %(name)s %(levelname)s %(message)s %(funcName)")
+formatter = jsonlogger.JsonFormatter(
+    "%(asctime)s %(name)s %(levelname)s %(message)s %(funcName)"
+)
 """ possible keys are 
 {"message": "an info message", "name": "__main__", "msg": "an info message", "args": [], "levelname": "INFO", "levelno": 20, "pathname": "/Users/manishraut/Documents/python-scripts/scripts/logging_setup/json_logging.py", "filename": "json_logging.py", "module": "json_logging", "exc_info": null, "exc_text": null, "stack_info": null, "lineno": 38, "funcName": "<module>", "created": 1754635702.138525, "msecs": 138.0, "relativeCreated": 58.484, "thread": 8218507328, "threadName": "MainThread", "processName": "MainProcess", "process": 79788, "taskName": null}
 """
 stream_handler.setFormatter(formatter)
 
+
 class ContextFilter(logging.Filter):
-    def __init__(self, name=''):
+    def __init__(self, name=""):
         super().__init__(name)
         self.hostname = socket.gethostname()
         self.process_id = os.getpid()
@@ -48,6 +51,7 @@ class ContextFilter(logging.Filter):
         record.hostname = self.hostname
         record.process_id = self.process_id
         return True
+
 
 stream_handler.addFilter(ContextFilter())
 logger.debug("a debug message", extra={"ouid": 1234, "details": {"qwe": "Qweqweqw"}})

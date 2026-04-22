@@ -1,10 +1,10 @@
 import logging
 import sys
 
+from pythonjsonlogger import jsonlogger
+
 # always create one
 logger = logging.getLogger(__name__)
-
-
 logger.setLevel(logging.DEBUG)
 
 # creating handler
@@ -16,19 +16,18 @@ logger.addHandler(stream_handler)
 """If you don't set level to handler, it fallbacks to loggers default level"""
 # stream_handler.setLevel(logging.INFO)
 
-file_handler = logging.FileHandler("errors.log")
+file_handler = logging.FileHandler("logs.json")
 """file_handler will only log ERROR and above"""
-file_handler.setLevel(logging.ERROR)
+file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 
-""" in this setup  
-All records  DEBUG and above are created.
-stream_handler processes all events
-file_handler processes ERROR and above
-"""
+normal_formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s"
+)
+json_formatter = jsonlogger.JsonFormatter(
+    "%(asctime)s - %(name)s - %(levelname)s %(threadName)s %(filename)s:%(lineno)s - %(funcName)s() - %(message)s"
+)
 
-logger.debug("a debug message")
-logger.info("an info message")
-logger.warning("a warning message")
-logger.error("a error message")
-logger.critical("a crit message")
+stream_handler.setFormatter(normal_formatter)
+
+file_handler.setFormatter(json_formatter)
